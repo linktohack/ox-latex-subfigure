@@ -1,0 +1,35 @@
+* How
+#+BEGIN_SRC emacs-lisp
+(use-package ox-latex-subfigure
+  :load-path "~/Dropbox/ProjectWeekends/ox-latex-subfigure/"
+  :config
+  (add-to-list 'org-export-filter-table-functions
+               'link/org-export-table-to-subfigure))
+#+END_SRC
+
+#+BEGIN_SRC org
+#+NAME: fig:hello
+#+CAPTION: Use figure/subfigure instead of tabular, remember to set =:environment=
+#+ATTR_LATEX: :environment subfigure :width 0.4\textwidth :align c
+| [[~/Desktop/figure_1.png]] | tttttt                 |
+| zzzzz                  | [[~/Desktop/figure_1.png]] |
+#+END_SRC
+
+#+BEGIN_SRC latex
+\begin{figure}[htb]
+\centering
+\begin{subfigure}[c]{0.4\textwidth}
+\includegraphics[width=.9\linewidth]{/Users/link/Desktop/figure_1.png}
+\caption{zzzzz}
+\end{subfigure}
+\begin{subfigure}[c]{0.4\textwidth}
+\includegraphics[width=.9\linewidth]{/Users/link/Desktop/figure_1.png}
+\caption{tttttt}
+\end{subfigure}
+\caption{\label{tab:orgtable1}
+Use figure/subfigure instead of tabular, remember to set \texttt{:environment}}
+
+\end{figure}
+#+END_SRC
+* License
+MIT
