@@ -85,7 +85,7 @@
                   (setq count (1+ count))
                   (when (and (> continued 0)
                              (> count continued))
-                    (setq count 0)
+                    (setq count 1)
                     (insert (format "\\end{figure}\n
 \\begin{figure}%s
 \\ContinuedFloat\n" option))
