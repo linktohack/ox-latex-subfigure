@@ -57,11 +57,11 @@
          ;; table row
          ((string-match ".*\\\\\\\\$" row)
           (let ((striped-row (replace-regexp-in-string "\\\\\\\\\n$" "" row)))
-            (setq fig (append (split-string striped-row " & ") fig))
+            (setq fig (append fig (split-string striped-row " & ")))
             (setq row (thing-at-point 'line t))
             (kill-whole-line)
             (setq striped-row (replace-regexp-in-string "\\\\\\\\\n$" "" row))
-            (setq cap (append (split-string striped-row " & ") cap)))))))
+            (setq cap (append cap (split-string striped-row " & "))))))))
     (kill-whole-line)
     (insert (format "\\begin{figure}%s\n%s" option centering))
     (dotimes (i (length fig))
