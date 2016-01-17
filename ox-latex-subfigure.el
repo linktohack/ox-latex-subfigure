@@ -2,7 +2,7 @@
 (require 'org-loaddefs)
 
 (defun link/org-export-table-to-subfigure (text backend info)
-  "Convert table subfigure in LaTeX export."
+  "Convert table to subfigure in LaTeX export."
   (when (org-export-derived-backend-p backend 'latex)
     (let* ((pt (next-property-change 0 text))
            (cell (plist-get (text-properties-at pt text) :parent))
@@ -81,5 +81,8 @@
 \\begin{figure}%s
 %s\\ContinuedFloat\n" option centering))))))
     (insert (format "%s\\end{figure}\n" caption))))
+
+(add-hook 'org-export-filter-table-functions
+          'link/org-export-table-to-subfigure)
 
 (provide 'ox-latex-subfigure)
