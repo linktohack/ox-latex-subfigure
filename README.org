@@ -9,6 +9,7 @@
 #+END_SRC
 
 #+BEGIN_SRC org
+#+LATEX_HEADER: \usepackage{subcaption}
 #+NAME: fig:hello
 #+CAPTION: Use figure/subfigure instead of tabular, remember to set =:environment=
 #+ATTR_LATEX: :environment subfigure :width 0.4\textwidth :align c
