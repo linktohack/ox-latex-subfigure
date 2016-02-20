@@ -1,10 +1,11 @@
 * How
 #+BEGIN_SRC emacs-lisp
+(package-initialize)
 (use-package ox-latex-subfigure
-  :load-path "~/Dropbox/ProjectWeekends/ox-latex-subfigure/"
-  :config
-  (add-to-list 'org-export-filter-table-functions
-               'link/org-export-table-to-subfigure))
+  :init
+  (setq org-latex-caption-above nil)
+  :load-path "~/Dropbox/ProjectWeekends/lisp/ox-latex-subfigure/"
+  :config (require 'ox-latex-subfigure))
 #+END_SRC
 
 #+BEGIN_SRC org
