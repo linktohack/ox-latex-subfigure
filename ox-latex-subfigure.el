@@ -67,7 +67,9 @@
             (setq striped-row (replace-regexp-in-string "\\\\\\\\\n$" "" row))
             (setq cap (append cap (split-string striped-row " & "))))))))
     (kill-whole-line)
-    (insert (format "\\begin{figure}%s\n%s" option centering))
+    (insert (format "\\begin{figure}%s\n%s%s" option
+                    (if org-latex-caption-above caption "")
+                    centering))
     (dotimes (i (length fig))
       (let ((f (nth i fig))
             (c (nth i cap)))
@@ -84,7 +86,8 @@
             (insert (format "\\end{figure}\n
 \\begin{figure}%s
 %s\\ContinuedFloat\n" option centering))))))
-    (insert (format "%s\\end{figure}\n" caption))))
+    (insert (format "%s\\end{figure}\n"
+                    (if org-latex-caption-above "" caption)))))
 
 (add-hook 'org-export-filter-table-functions
           'link/org-export-table-to-subfigure)
