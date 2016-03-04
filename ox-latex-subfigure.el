@@ -55,7 +55,7 @@
             (setq align (or maybe-align align))))
          ;; \caption{\label{tab:orgtable1}
          ;; xxx}
-         ((string-match "^\\\\caption{" row)
+         ((string-match "^\\\\caption[\\\\[{]" row)
           (setq caption (concat row (thing-at-point 'line t)))
           (kill-whole-line))
          ;; table row
