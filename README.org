@@ -13,9 +13,11 @@
 #+NAME: fig:hello
 #+CAPTION: Use figure/subfigure instead of tabular, remember to set =:environment=
 #+ATTR_LATEX: :environment subfigure :width 0.4\textwidth :align c
-| [[~/Desktop/figure_1.png]] | tttttt                 |
-| zzzzz                  | [[~/Desktop/figure_1.png]] |
+| [[~/Desktop/figure_1.png]] | <<<fig:hello_subfigure>> tttttt |
+| zzzzz                      | [[~/Desktop/figure_1.png]]      |
 #+END_SRC
+
+Ordinary linking works as usual [[fig:hello]]. Internal org-mode linking also work [[fig:hello_subfigure]].
 
 #+BEGIN_SRC latex
 \begin{figure}[htb]
@@ -26,12 +28,15 @@
 \end{subfigure}
 \begin{subfigure}[c]{0.4\textwidth}
 \includegraphics[width=.9\linewidth]{/Users/link/Desktop/figure_1.png}
-\caption{tttttt}
+\caption{\label{fig:hello_subfigure}tttttt}
 \end{subfigure}
 \caption{\label{tab:orgtable1}
 Use figure/subfigure instead of tabular, remember to set \texttt{:environment}}
 
 \end{figure}
+
+Ordinary linking works as usual \ref{fig:hello}. Internal org-mode linking also work \ref{fig:hello_subfigure}.
 #+END_SRC
+
 * License
 MIT
