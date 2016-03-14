@@ -1,42 +1,42 @@
 * How
-#+BEGIN_SRC emacs-lisp
-(package-initialize)
-(use-package ox-latex-subfigure
-  :init
-  (setq org-latex-caption-above nil)
-  :load-path "~/Dropbox/ProjectWeekends/lisp/ox-latex-subfigure/"
-  :config (require 'ox-latex-subfigure))
-#+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (package-initialize)
+    (use-package ox-latex-subfigure
+      :init
+      (setq org-latex-caption-above nil
+            org-latex-prefer-user-labels t)
+      :load-path "~/Dropbox/ProjectWeekends/lisp/ox-latex-subfigure/"
+      :config (require 'ox-latex-subfigure))
+  #+END_SRC
 
-#+BEGIN_SRC org
-#+LATEX_HEADER: \usepackage{subcaption}
-#+NAME: fig:hello
-#+CAPTION: Use figure/subfigure instead of tabular, remember to set =:environment=
-#+ATTR_LATEX: :environment subfigure :width 0.4\textwidth :align c
-| [[~/Desktop/figure_1.png]] | <<<fig:hello_subfigure>> tttttt |
-| zzzzz                      | [[~/Desktop/figure_1.png]]      |
-#+END_SRC
+  #+BEGIN_SRC org :tangle ~/Desktop/1.org
+    ,#+LATEX_HEADER: \usepackage{subcaption}
+    ,#+NAME: fig:hello
+    ,#+CAPTION: Use figure/subfigure instead of tabular, remember to set =:environment=
+    ,#+ATTR_LATEX: :environment subfigure :width 0.4\textwidth :align c
+    | [[~/Desktop/figure_1.png]] | <<fig:hello_subfigure>> tttttt |
+    | zzzzz                      | [[~/Desktop/figure_1.png]]     |
+  #+END_SRC
 
-Ordinary linking works as usual [[fig:hello]]. Internal org-mode linking also work [[fig:hello_subfigure]].
+  Ordinary linking works as usual =[[fig:hello]]=; internal org-mode
+  linking also work =[[fig:hello_subfigure]]= if one has
+  =org-latex-prefer-user-labels= set to =t=.
 
-#+BEGIN_SRC latex
-\begin{figure}[htb]
-\centering
-\begin{subfigure}[c]{0.4\textwidth}
-\includegraphics[width=.9\linewidth]{/Users/link/Desktop/figure_1.png}
-\caption{zzzzz}
-\end{subfigure}
-\begin{subfigure}[c]{0.4\textwidth}
-\includegraphics[width=.9\linewidth]{/Users/link/Desktop/figure_1.png}
-\caption{\label{fig:hello_subfigure}tttttt}
-\end{subfigure}
-\caption{\label{tab:orgtable1}
-Use figure/subfigure instead of tabular, remember to set \texttt{:environment}}
-
-\end{figure}
-
-Ordinary linking works as usual \ref{fig:hello}. Internal org-mode linking also work \ref{fig:hello_subfigure}.
-#+END_SRC
+  #+BEGIN_SRC tex
+    \begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[c]{0.4\textwidth}
+    \includegraphics[width=.9\linewidth]{/Users/link/Desktop/figure_1.png}
+    \caption{zzzzz}
+    \end{subfigure}
+    \begin{subfigure}[c]{0.4\textwidth}
+    \includegraphics[width=.9\linewidth]{/Users/link/Desktop/figure_1.png}
+    \caption{\label{fig:hello_subfigure} tttttt}
+    \end{subfigure}
+    \caption{\label{fig:hello}
+    Use figure/subfigure instead of tabular, remember to set \texttt{:environment}}
+    \end{figure}
+  #+END_SRC
 
 * License
-MIT
+  MIT
