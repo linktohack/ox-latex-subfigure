@@ -45,14 +45,38 @@
          ;; \begin{subfigure}{width}{align}, \begin{subfigure}{align}
          ;; \end{subfigure}
          ((string-match "^\\\\begin{subfigure}\\({\\(.*?\\)}\\)?\\({\\(.*?\\)}\\)?" row)
-          (let (maybe-width maybe-align)
+          (let (maybe-width maybe-align start-of-table row-start row-end)
             (setq maybe-width (match-string 2 row))
             (setq maybe-align (match-string 4 row))
             (unless maybe-align
               (setq maybe-align maybe-width)
               (setq maybe-width nil))
             (setq width (or maybe-width width))
-            (setq align (or maybe-align align))))
+            (setq align (or maybe-align align))
+
+            ;; Transform all multi line rows to single line rows by replacing
+            ;; newlines with spaces
+            (setq start-of-table (point))
+            (while (not (looking-at "\\\\end{subfigure}"))
+              (setq row-start (point))
+
+              ;; Search for a new row delimiter
+              (when (re-search-forward "\\\\\\\\\n?")
+                (goto-char row-start)
+
+                (setq row-end (match-beginning 0))
+
+		;; Replace all newlines in the row with spaces
+                (save-match-data
+                  (while (re-search-forward "\n" row-end t)
+                    (replace-match " ")))
+
+                (setq row-start (match-end 0))
+                (goto-char row-start)))
+
+            ;; Go back the start of the table and continue with normal
+            ;; row formatting
+            (goto-char start-of-table)))
          ;; \caption{\label{tab:orgtable1}
          ;; xxx}
          ((string-match "^\\\\caption[\\\\[{]" row)
@@ -75,7 +99,8 @@
             (c (nth i cap)))
         (when (string-match "includegraphics" c)
           (setq f (prog1 c (setq c f))))
-        (when (string-match "includegraphics" f)
+        (when (string-match "\\(\\\\includegraphics\\(:?\\[.*?\\]\\)?{.*?}\\)" f)
+          (setq f (match-string 1 f))
           (insert (format "\\begin{subfigure}[%s]{%s}
 %s
 \\caption{%s}
