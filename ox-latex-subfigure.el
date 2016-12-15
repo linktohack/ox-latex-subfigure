@@ -54,14 +54,25 @@
             (setq width (or maybe-width width))
             (setq align (or maybe-align align))
 
+            (setq start-of-table (point))
+
+            ;; Remove all possible rules or hlines
+            (setq rules
+                  (mapconcat 'identity
+                             '("hline" "vline" "toprule" "midrule" "bottomrule")
+                             "\\|"))
+            (while (re-search-forward (concat "\\\\\\(" rules  "\\)\n?") nil t)
+              (replace-match ""))
+
+            (goto-char start-of-table)
+
             ;; Transform all multi line rows to single line rows by replacing
             ;; newlines with spaces
-            (setq start-of-table (point))
             (while (not (looking-at "\\\\end{subfigure}"))
               (setq row-start (point))
 
               ;; Search for a new row delimiter
-              (when (re-search-forward "\\\\\\\\\n?")
+              (when (re-search-forward "\\\\\\\\\n?" nil t)
                 (goto-char row-start)
 
                 (setq row-end (match-beginning 0))
