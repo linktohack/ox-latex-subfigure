@@ -4,23 +4,25 @@
 (defun link/org-export-table-to-subfigure (text backend info)
   "Convert table to subfigure in LaTeX export."
   (when (org-export-derived-backend-p backend 'latex)
-    (let ((pt 0)
-          cell table attr env limit)
-      (while (or (not table)
-                 (not pt))
-        (setq pt (next-property-change pt text)
-              cell (plist-get (text-properties-at pt text) :parent)
-              table (org-export-get-parent-table cell)))
-      (setq attr (org-export-read-attribute :attr_latex table)
-            env (plist-get attr :environment)
-            limit (string-to-int (or (plist-get attr :limit) "0")))
-      (if (not (string= "subfigure" env))
-          text
-        (with-temp-buffer
-          (insert text)
-          (goto-char 1)
-          (link/latex-table-to-subfigure limit)
-          (buffer-string))))))
+    (if (not (next-property-change 0 text))
+        text
+      (let ((pt 0)
+            cell table attr env limit)
+        (while (or (not table)
+                   (not pt))
+          (setq pt (next-property-change pt text)
+                cell (plist-get (text-properties-at pt text) :parent)
+                table (org-export-get-parent-table cell)))
+        (setq attr (org-export-read-attribute :attr_latex table)
+              env (plist-get attr :environment)
+              limit (string-to-int (or (plist-get attr :limit) "0")))
+        (if (not (string= "subfigure" env))
+            text
+          (with-temp-buffer
+            (insert text)
+            (goto-char 1)
+            (link/latex-table-to-subfigure limit)
+            (buffer-string)))))))
 
 (defun link/latex-table-to-subfigure (limit)
   "Convert well-formed table to subfigure."
