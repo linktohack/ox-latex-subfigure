@@ -105,7 +105,7 @@
             (setq cap (append cap (split-string striped-row " & "))))))))
     (kill-whole-line)
     (insert (format "\\begin{figure}%s\n%s%s" option
-                    (if org-latex-caption-above caption "")
+                    (if (member 'subfigure org-latex-caption-above) caption "")
                     centering))
     (dotimes (i (length fig))
       (let ((f (nth i fig))
@@ -125,7 +125,7 @@
 \\begin{figure}%s
 %s\\ContinuedFloat\n" option centering))))))
     (insert (format "%s\\end{figure}\n"
-                    (if org-latex-caption-above "" caption)))))
+                    (if (member 'subfigure org-latex-caption-above) "" caption)))))
 
 (add-hook 'org-export-filter-table-functions
           'link/org-export-table-to-subfigure)
