@@ -3,10 +3,11 @@
     (package-initialize)
     (use-package ox-latex-subfigure
       :init
-      (setq org-latex-caption-above nil
-            org-latex-prefer-user-labels t)
+      (setq org-latex-prefer-user-labels t)
       :load-path "~/Dropbox/ProjectWeekends/lisp/ox-latex-subfigure/"
       :config (require 'ox-latex-subfigure))
+
+    ; (add-to-list 'org-latex-caption-above 'subfigure) ; If you want the caption above the figure
   #+END_SRC
 
   #+BEGIN_SRC org :tangle ~/Desktop/1.org
