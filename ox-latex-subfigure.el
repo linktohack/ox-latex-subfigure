@@ -1,3 +1,17 @@
+;;; ox-latex-subfigure.el --- Subfigure for latex export
+
+;; Author: 
+;; Keywords: org-mode, latex
+;; Package-Requires: ((emacs "24.1"))
+
+;; This file is NOT part of GNU Emacs.
+
+;;; Commentary:
+
+;; ox-latex-subfigure.el permits to export subfigure to latex
+
+;;; Code:
+
 (require 'ox-latex)
 (require 'org-loaddefs)
 
