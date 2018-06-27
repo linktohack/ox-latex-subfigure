@@ -29,7 +29,7 @@
                 table (org-export-get-parent-table cell)))
         (setq attr (org-export-read-attribute :attr_latex table)
               env (plist-get attr :environment)
-              limit (string-to-int (or (plist-get attr :limit) "0")))
+              limit (string-to-number (or (plist-get attr :limit) "0")))
         (if (not (string= "subfigure" env))
             text
           (with-temp-buffer
