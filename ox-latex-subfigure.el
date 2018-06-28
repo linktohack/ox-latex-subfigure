@@ -1,3 +1,17 @@
+;;; ox-latex-subfigure.el --- Subfigure for latex export
+
+;; Author: 
+;; Keywords: org-mode, latex
+;; Package-Requires: ((emacs "24.1"))
+
+;; This file is NOT part of GNU Emacs.
+
+;;; Commentary:
+
+;; ox-latex-subfigure.el permits to export subfigure to latex
+
+;;; Code:
+
 (require 'ox-latex)
 (require 'org-loaddefs)
 
@@ -15,7 +29,7 @@
                 table (org-export-get-parent-table cell)))
         (setq attr (org-export-read-attribute :attr_latex table)
               env (plist-get attr :environment)
-              limit (string-to-int (or (plist-get attr :limit) "0")))
+              limit (string-to-number (or (plist-get attr :limit) "0")))
         (if (not (string= "subfigure" env))
             text
           (with-temp-buffer
