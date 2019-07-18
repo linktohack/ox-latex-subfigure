@@ -68,4 +68,4 @@
     - Options (width etc)
 
 * License
-  MIT
+  GPL

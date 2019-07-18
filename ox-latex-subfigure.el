@@ -1,10 +1,32 @@
 ;;; ox-latex-subfigure.el --- Subfigure for latex export
 
-;; Author:
-;; Keywords: org-mode, latex
-;; Package-Requires: ((emacs "24.1"))
+;; Copyright (C) 2014-2019 Quang Linh LE
 
-;; This file is NOT part of GNU Emacs.
+;; Author: Quang Linh LE <linktohack@gmail.com>
+;; URL: http://github.com/linktohack/ox-latexty-subfigure
+;; Version: 0.0.1
+;; Keywords: ox latex subfigure org org-mode
+;; Package-Requires: ()
+
+;; This file is not part of GNU Emacs.
+
+;;; License:
+
+;; This file is part of ox-latex-subfigure
+;;
+;; ox-latex-subfigure is free software: you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License as
+;; published by the Free Software Foundation, either version 3 of the
+;; License, or (at your option) any later version.
+;;
+;; ox-latex-subfigure is distributed in the hope that it will be
+;; useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+;; of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see
+;; <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
