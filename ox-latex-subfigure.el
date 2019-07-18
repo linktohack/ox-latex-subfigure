@@ -5,7 +5,7 @@
 ;; Author: Quang Linh LE <linktohack@gmail.com>
 ;; URL: http://github.com/linktohack/ox-latexty-subfigure
 ;; Version: 0.0.2
-;; Keywords: ox latex subfigure org org-mode
+;; Keywords: convenience ox latex subfigure org org-mode
 ;; Package-Requires: ()
 
 ;; This file is not part of GNU Emacs.
