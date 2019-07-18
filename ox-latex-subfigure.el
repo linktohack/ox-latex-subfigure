@@ -43,10 +43,8 @@ TEXT is raw text, BACKEND is backend, INFO is info."
   (when (org-export-derived-backend-p backend 'latex)
     (if (not (next-property-change 0 text))
         text
-      (let ((pt 0)
-            cell table)
-        (while (or (not table)
-                   (not pt))
+      (let ((pt 0) cell table)
+        (while (or (not table) (not pt))
           (setq pt (next-property-change pt text))
           (setq cell (plist-get (text-properties-at pt text) :parent))
           (setq table (org-export-get-parent-table cell)))
