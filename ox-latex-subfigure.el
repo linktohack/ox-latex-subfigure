@@ -37,7 +37,7 @@
 (require 'ox-latex)
 (require 'org-loaddefs)
 
-(defun link/org-export-table-to-subfigure (text backend info)
+(defun ox-latex-subfigure-org-export-table-to-subfigure (text backend info)
   "Convert table to subfigure in LaTeX export.
 TEXT is raw text, BACKEND is backend, INFO is info."
   (when (org-export-derived-backend-p backend 'latex)
@@ -58,10 +58,10 @@ TEXT is raw text, BACKEND is backend, INFO is info."
           (with-temp-buffer
             (insert text)
             (goto-char 1)
-            (link/latex-table-to-subfigure limit)
+            (ox-latex-subfigure-latex-table-to-subfigure limit)
             (buffer-string)))))))
 
-(defun link/latex-table-to-subfigure (limit)
+(defun ox-latex-subfigure-latex-table-to-subfigure (limit)
   "Convert well-formed table to subfigure.
 LIMIT is limit."
   (interactive "p")
@@ -192,7 +192,7 @@ LIMIT is limit."
                     (if (member 'subfigure org-latex-caption-above) "" caption)))))
 
 (add-hook 'org-export-filter-table-functions
-          'link/org-export-table-to-subfigure)
+          'ox-latex-subfigure-org-export-table-to-subfigure)
 
 (provide 'ox-latex-subfigure)
 ;;; ox-latex-subfigure.el ends here
