@@ -43,23 +43,21 @@ TEXT is raw text, BACKEND is backend, INFO is info."
   (when (org-export-derived-backend-p backend 'latex)
     (if (not (next-property-change 0 text))
         text
-      (let ((pt 0)
-            cell table attr env limit)
-        (while (or (not table)
-                   (not pt))
-          (setq pt (next-property-change pt text)
-                cell (plist-get (text-properties-at pt text) :parent)
-                table (org-export-get-parent-table cell)))
-        (setq attr (org-export-read-attribute :attr_latex table)
-              env (plist-get attr :environment)
-              limit (string-to-number (or (plist-get attr :limit) "0")))
-        (if (not (string= "subfigure" env))
-            text
-          (with-temp-buffer
-            (insert text)
-            (goto-char 1)
-            (ox-latex-subfigure-latex-table-to-subfigure limit)
-            (buffer-string)))))))
+      (let ((pt 0) cell table)
+        (while (or (not table) (not pt))
+          (setq pt (next-property-change pt text))
+          (setq cell (plist-get (text-properties-at pt text) :parent))
+          (setq table (org-export-get-parent-table cell)))
+        (let* ((attr  (org-export-read-attribute :attr_latex table))
+               (env   (plist-get attr :environment))
+               (limit (string-to-number (or (plist-get attr :limit) "0"))))
+          (if (not (string= "subfigure" env))
+              text
+            (with-temp-buffer
+              (insert text)
+              (goto-char 1)
+              (ox-latex-subfigure-latex-table-to-subfigure limit)
+              (buffer-string))))))))
 
 (defun ox-latex-subfigure-latex-table-to-subfigure (limit)
   "Convert well-formed table to subfigure.
@@ -85,8 +83,7 @@ LIMIT is limit."
          ;; \begin{subfigure}{width}{align}, \begin{subfigure}{align}
          ;; \end{subfigure}
          ((string-match "^\\\\begin{subfigure}\\({\\(.*?\\)}\\)?\\({\\(.*?\\)}\\)?" row)
-          (let
-              (maybe-width maybe-align start-of-table row-start row-end rules)
+          (let (maybe-width maybe-align start-of-table row-start row-end rules)
             (setq maybe-width (match-string 2 row))
             (setq maybe-align (match-string 4 row))
             (unless maybe-align
@@ -98,10 +95,9 @@ LIMIT is limit."
             (setq start-of-table (point))
 
             ;; Remove all possible rules or hlines
-            (setq rules
-                  (mapconcat 'identity
-                             '("hline" "vline" "toprule" "midrule" "bottomrule")
-                             "\\|"))
+            (setq rules (mapconcat
+                         'identity
+                         '("hline" "vline" "toprule" "midrule" "bottomrule") "\\|"))
             (while (re-search-forward (concat "\\\\\\(" rules  "\\)\n?") nil t)
               (replace-match ""))
 
@@ -142,7 +138,7 @@ LIMIT is limit."
             (kill-whole-line)
             (setq striped-row (replace-regexp-in-string "\\\\\\\\\n$" "" row))
             (setq cap (append cap (split-string striped-row " & ")))
-            ;;
+
             (setq row (thing-at-point 'line t))
             (kill-whole-line)
             (setq striped-row (replace-regexp-in-string "\\\\\\\\\n$" "" row))
@@ -170,14 +166,12 @@ LIMIT is limit."
                               "\\(\\\\"
                               svg
                               "\\(:?\\[.*?\\]\\)?{.*?}\\)")
-                             f)
-               )
-          (setq
-           f (replace-regexp-in-string
-              "\\[.*?\\]"
-              (concat "[" o "]")
-              (match-string 1 f)
-              t t))
+                             f))
+          (setq f (replace-regexp-in-string
+                   "\\[.*?\\]"
+                   (concat "[" o "]")
+                   (match-string 1 f)
+                   t t))
           (insert (format "\\begin{subfigure}[%s]{%s}\\centering
 %s
 \\caption{%s}
