@@ -85,8 +85,7 @@ LIMIT is limit."
          ;; \begin{subfigure}{width}{align}, \begin{subfigure}{align}
          ;; \end{subfigure}
          ((string-match "^\\\\begin{subfigure}\\({\\(.*?\\)}\\)?\\({\\(.*?\\)}\\)?" row)
-          (let
-              (maybe-width maybe-align start-of-table row-start row-end rules)
+          (let (maybe-width maybe-align start-of-table row-start row-end rules)
             (setq maybe-width (match-string 2 row))
             (setq maybe-align (match-string 4 row))
             (unless maybe-align
@@ -98,10 +97,9 @@ LIMIT is limit."
             (setq start-of-table (point))
 
             ;; Remove all possible rules or hlines
-            (setq rules
-                  (mapconcat 'identity
-                             '("hline" "vline" "toprule" "midrule" "bottomrule")
-                             "\\|"))
+            (setq rules (mapconcat
+                         'identity
+                         '("hline" "vline" "toprule" "midrule" "bottomrule") "\\|"))
             (while (re-search-forward (concat "\\\\\\(" rules  "\\)\n?") nil t)
               (replace-match ""))
 
@@ -172,12 +170,11 @@ LIMIT is limit."
                               "\\(:?\\[.*?\\]\\)?{.*?}\\)")
                              f)
                )
-          (setq
-           f (replace-regexp-in-string
-              "\\[.*?\\]"
-              (concat "[" o "]")
-              (match-string 1 f)
-              t t))
+          (setq f (replace-regexp-in-string
+                   "\\[.*?\\]"
+                   (concat "[" o "]")
+                   (match-string 1 f)
+                   t t))
           (insert (format "\\begin{subfigure}[%s]{%s}\\centering
 %s
 \\caption{%s}
