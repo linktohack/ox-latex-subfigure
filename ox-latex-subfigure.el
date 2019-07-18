@@ -140,7 +140,7 @@ LIMIT is limit."
             (kill-whole-line)
             (setq striped-row (replace-regexp-in-string "\\\\\\\\\n$" "" row))
             (setq cap (append cap (split-string striped-row " & ")))
-            ;;
+
             (setq row (thing-at-point 'line t))
             (kill-whole-line)
             (setq striped-row (replace-regexp-in-string "\\\\\\\\\n$" "" row))
@@ -168,8 +168,7 @@ LIMIT is limit."
                               "\\(\\\\"
                               svg
                               "\\(:?\\[.*?\\]\\)?{.*?}\\)")
-                             f)
-               )
+                             f))
           (setq f (replace-regexp-in-string
                    "\\[.*?\\]"
                    (concat "[" o "]")
