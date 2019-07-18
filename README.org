@@ -39,8 +39,33 @@
     \end{figure}
   #+END_SRC
 
+
+  #+BEGIN_SRC org
+  #+CAPTION: Plot.
+  #+ATTR_LATEX: :environment subfigure :width 0.475\textwidth :align c
+  | [[file:ynglg_k0104.svg]] |
+  | <<fig-0104>>                                   |
+  | keepaspectratio,height=\textheight,width=0.98\linewidth             |
+  #+END_SRC
+  
+  #+BEGIN_SRC tex
+  \begin{figure}[htbp]
+  \centering
+  \begin{subfigure}[c]{0.475\textwidth}\centering
+  \includesvg[keepaspectratio,height=\textheight,width=0.98\linewidth]{ynglg_k0104}
+  \caption{\label{fig-0104}}
+  \end{subfigure}
+  \caption{Plot.}
+  
+  \end{figure}
+  #+END_SRC
+
+
 * Contributions
-  - Thanks @eoma for =org-mode= =9= compatibility
+  - @eoma for =org-mode= =9= compatibility
+  - Edgar <edgar@openmail.cc>
+    - SVG support
+    - Options (width etc)
 
 * License
   MIT
