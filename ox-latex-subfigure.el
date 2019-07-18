@@ -6,7 +6,7 @@
 ;; URL: http://github.com/linktohack/ox-latexty-subfigure
 ;; Version: 0.0.2
 ;; Keywords: convenience ox latex subfigure org org-mode
-;; Package-Requires: ()
+;; Package-Requires: ((emacs "24"))
 
 ;; This file is not part of GNU Emacs.
 
