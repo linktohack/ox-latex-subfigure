@@ -193,3 +193,4 @@
           'link/org-export-table-to-subfigure)
 
 (provide 'ox-latex-subfigure)
+;;; ox-latex-subfigure.el ends here
