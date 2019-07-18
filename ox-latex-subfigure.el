@@ -44,22 +44,22 @@ TEXT is raw text, BACKEND is backend, INFO is info."
     (if (not (next-property-change 0 text))
         text
       (let ((pt 0)
-            cell table attr env limit)
+            cell table)
         (while (or (not table)
                    (not pt))
           (setq pt (next-property-change pt text))
           (setq cell (plist-get (text-properties-at pt text) :parent))
           (setq table (org-export-get-parent-table cell)))
-        (setq attr (org-export-read-attribute :attr_latex table))
-        (setq env (plist-get attr :environment))
-        (setq limit (string-to-number (or (plist-get attr :limit) "0")))
-        (if (not (string= "subfigure" env))
-            text
-          (with-temp-buffer
-            (insert text)
-            (goto-char 1)
-            (ox-latex-subfigure-latex-table-to-subfigure limit)
-            (buffer-string)))))))
+        (let* ((attr  (org-export-read-attribute :attr_latex table))
+               (env   (plist-get attr :environment))
+               (limit (string-to-number (or (plist-get attr :limit) "0"))))
+          (if (not (string= "subfigure" env))
+              text
+            (with-temp-buffer
+              (insert text)
+              (goto-char 1)
+              (ox-latex-subfigure-latex-table-to-subfigure limit)
+              (buffer-string))))))))
 
 (defun ox-latex-subfigure-latex-table-to-subfigure (limit)
   "Convert well-formed table to subfigure.
