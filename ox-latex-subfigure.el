@@ -4,7 +4,7 @@
 
 ;; Author: Quang Linh LE <linktohack@gmail.com>
 ;; URL: http://github.com/linktohack/ox-latexty-subfigure
-;; Version: 0.0.1
+;; Version: 0.0.2
 ;; Keywords: ox latex subfigure org org-mode
 ;; Package-Requires: ()
 
@@ -84,7 +84,7 @@
          ;; \end{subfigure}
          ((string-match "^\\\\begin{subfigure}\\({\\(.*?\\)}\\)?\\({\\(.*?\\)}\\)?" row)
           (let
-              (maybe-width maybe-align start-of-table row-start row-end)
+              (maybe-width maybe-align start-of-table row-start row-end rules)
             (setq maybe-width (match-string 2 row))
             (setq maybe-align (match-string 4 row))
             (unless maybe-align
