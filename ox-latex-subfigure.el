@@ -5,7 +5,7 @@
 ;; Author: Quang Linh LE <linktohack@gmail.com>
 ;; URL: http://github.com/linktohack/ox-latexty-subfigure
 ;; Version: 0.0.2
-;; Keywords: ox latex subfigure org org-mode
+;; Keywords: convenience ox latex subfigure org org-mode
 ;; Package-Requires: ()
 
 ;; This file is not part of GNU Emacs.
@@ -38,7 +38,8 @@
 (require 'org-loaddefs)
 
 (defun link/org-export-table-to-subfigure (text backend info)
-  "Convert table to subfigure in LaTeX export."
+  "Convert table to subfigure in LaTeX export.
+TEXT is raw text, BACKEND is backend, INFO is info."
   (when (org-export-derived-backend-p backend 'latex)
     (if (not (next-property-change 0 text))
         text
@@ -61,7 +62,8 @@
             (buffer-string)))))))
 
 (defun link/latex-table-to-subfigure (limit)
-  "Convert well-formed table to subfigure."
+  "Convert well-formed table to subfigure.
+LIMIT is limit."
   (interactive "p")
   (let ((width ".9\\textwidth")
         (align "")
@@ -193,3 +195,4 @@
           'link/org-export-table-to-subfigure)
 
 (provide 'ox-latex-subfigure)
+;;; ox-latex-subfigure.el ends here
