@@ -1,6 +1,6 @@
 ;;; ox-latex-subfigure.el --- Subfigure for latex export
 
-;; Author: 
+;; Author:
 ;; Keywords: org-mode, latex
 ;; Package-Requires: ((emacs "24.1"))
 
@@ -42,11 +42,11 @@
   "Convert well-formed table to subfigure."
   (interactive "p")
   (let ((width ".9\\textwidth")
-        (align "b")
+        (align "")
         (option "")
         (centering "")
         (caption "")
-        fig cap)
+        fig cap options-test)
     (beginning-of-line)
     (while (not (looking-at "^\\\\end{table}"))
       (let ((row (thing-at-point 'line t)))
@@ -61,7 +61,8 @@
          ;; \begin{subfigure}{width}{align}, \begin{subfigure}{align}
          ;; \end{subfigure}
          ((string-match "^\\\\begin{subfigure}\\({\\(.*?\\)}\\)?\\({\\(.*?\\)}\\)?" row)
-          (let (maybe-width maybe-align start-of-table row-start row-end)
+          (let
+              (maybe-width maybe-align start-of-table row-start row-end)
             (setq maybe-width (match-string 2 row))
             (setq maybe-align (match-string 4 row))
             (unless maybe-align
@@ -116,19 +117,44 @@
             (setq row (thing-at-point 'line t))
             (kill-whole-line)
             (setq striped-row (replace-regexp-in-string "\\\\\\\\\n$" "" row))
-            (setq cap (append cap (split-string striped-row " & "))))))))
+            (setq cap (append cap (split-string striped-row " & ")))
+            ;;
+            (setq row (thing-at-point 'line t))
+            (kill-whole-line)
+            (setq striped-row (replace-regexp-in-string "\\\\\\\\\n$" "" row))
+            (setq options-test (append options-test (split-string striped-row " & "))))))))
     (kill-whole-line)
     (insert (format "\\begin{figure}%s\n%s%s" option
                     (if (member 'subfigure org-latex-caption-above) caption "")
                     centering))
     (dotimes (i (length fig))
       (let ((f (nth i fig))
-            (c (nth i cap)))
-        (when (string-match "includegraphics" c)
+            (c (nth i cap))
+            (o (nth i options-test))
+            (std "includegraphics")
+            (svg "includesvg"))
+        (when (or (string-match std c)
+                  (string-match svg c))
           (setq f (prog1 c (setq c f))))
-        (when (string-match "\\(\\\\includegraphics\\(:?\\[.*?\\]\\)?{.*?}\\)" f)
-          (setq f (match-string 1 f))
-          (insert (format "\\begin{subfigure}[%s]{%s}
+        (when (or
+               (string-match (concat
+                              "\\(\\\\"
+                              std
+                              "\\(:?\\[.*?\\]\\)?{.*?}\\)")
+                             f)
+               (string-match (concat
+                              "\\(\\\\"
+                              svg
+                              "\\(:?\\[.*?\\]\\)?{.*?}\\)")
+                             f)
+               )
+          (setq
+           f (replace-regexp-in-string
+              "\\[.*?\\]"
+              (concat "[" o "]")
+              (match-string 1 f)
+              t t))
+          (insert (format "\\begin{subfigure}[%s]{%s}\\centering
 %s
 \\caption{%s}
 \\end{subfigure}\n" align width f c))
