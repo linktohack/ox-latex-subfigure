@@ -64,11 +64,11 @@ TEXT is raw text, BACKEND is backend, INFO is info."
 LIMIT is limit."
   (interactive "p")
   (let ((width ".9\\textwidth")
-        (align "")
+        (align "b")
         (option "")
         (centering "")
         (caption "")
-        fig cap options-test)
+        fig cap)
     (beginning-of-line)
     (while (not (looking-at "^\\\\end{table}"))
       (let ((row (thing-at-point 'line t)))
@@ -137,42 +137,19 @@ LIMIT is limit."
             (setq row (thing-at-point 'line t))
             (kill-whole-line)
             (setq striped-row (replace-regexp-in-string "\\\\\\\\\n$" "" row))
-            (setq cap (append cap (split-string striped-row " & ")))
-
-            (setq row (thing-at-point 'line t))
-            (kill-whole-line)
-            (setq striped-row (replace-regexp-in-string "\\\\\\\\\n$" "" row))
-            (setq options-test (append options-test (split-string striped-row " & "))))))))
+            (setq cap (append cap (split-string striped-row " & "))))))))
     (kill-whole-line)
     (insert (format "\\begin{figure}%s\n%s%s" option
                     (if (member 'subfigure org-latex-caption-above) caption "")
                     centering))
     (dotimes (i (length fig))
       (let ((f (nth i fig))
-            (c (nth i cap))
-            (o (nth i options-test))
-            (std "includegraphics")
-            (svg "includesvg"))
-        (when (or (string-match std c)
-                  (string-match svg c))
+            (c (nth i cap)))
+        (when (string-match "includegraphics" c)
           (setq f (prog1 c (setq c f))))
-        (when (or
-               (string-match (concat
-                              "\\(\\\\"
-                              std
-                              "\\(:?\\[.*?\\]\\)?{.*?}\\)")
-                             f)
-               (string-match (concat
-                              "\\(\\\\"
-                              svg
-                              "\\(:?\\[.*?\\]\\)?{.*?}\\)")
-                             f))
-          (setq f (replace-regexp-in-string
-                   "\\[.*?\\]"
-                   (concat "[" o "]")
-                   (match-string 1 f)
-                   t t))
-          (insert (format "\\begin{subfigure}[%s]{%s}\\centering
+        (when (string-match "\\(\\\\includegraphics\\(:?\\[.*?\\]\\)?{.*?}\\)" f)
+          (setq f (match-string 1 f))
+          (insert (format "\\begin{subfigure}[%s]{%s}
 %s
 \\caption{%s}
 \\end{subfigure}\n" align width f c))
