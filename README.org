@@ -40,7 +40,9 @@
   #+END_SRC
 
 * Contributions
-  - Thanks @eoma for =org-mode= =9= compatibility
+  - @eoma for =org-mode= =9= compatibility
+  - Edgar <edgar@openmail.cc>
+    - SVG support
 
 * License
   GPL
